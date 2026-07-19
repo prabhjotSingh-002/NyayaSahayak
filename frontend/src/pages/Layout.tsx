@@ -9,14 +9,14 @@ import { useAuthStore } from "../store/authStore";
 
 // Navigation lists grouped by category
 const GROUP_MAIN = [
-  { label: "Workspace",     path: "/workspace",     icon: "▦" },
-  { label: "CaseVault",     path: "/casevault",     icon: "📂" },
+  { label: "Workspace", path: "/workspace", icon: "▦" },
+  { label: "CaseVault", path: "/casevault", icon: "📂" },
 ];
 
 const GROUP_AI = [
   { label: "ContractGuard", path: "/contractguard", icon: "🛡️" },
-  { label: "AI Vakil",      path: "/ai-vakil",      icon: "💬" },
-  { label: "DocDraft",      path: "/docdraft",      icon: "📝" },
+  { label: "AI Vakil", path: "/ai-vakil", icon: "💬" },
+  { label: "DocDraft", path: "/docdraft", icon: "📝" },
 ];
 
 // Breadcrumbs builder
@@ -52,9 +52,8 @@ function SidebarLink({ label, path, icon, collapsed, onClick }: {
     return (
       <button
         onClick={handleClick}
-        className={`w-full relative flex items-center py-2.5 rounded-xl bg-gradient-to-r from-[#E8B86D]/15 to-transparent border border-[#E8B86D]/20 text-[#E8B86D] font-bold text-sm transition overflow-hidden group cursor-pointer ${
-          collapsed ? "px-2 justify-center" : "px-3 justify-between"
-        }`}
+        className={`w-full relative flex items-center py-2.5 rounded-xl bg-gradient-to-r from-[#E8B86D]/15 to-transparent border border-[#E8B86D]/20 text-[#E8B86D] font-bold text-sm transition overflow-hidden group cursor-pointer ${collapsed ? "px-2 justify-center" : "px-3 justify-between"
+          }`}
       >
         <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#E8B86D] shadow-[0_0_10px_rgba(232,184,109,0.8)]"></div>
         <div className="flex items-center gap-3">
@@ -78,9 +77,8 @@ function SidebarLink({ label, path, icon, collapsed, onClick }: {
   return (
     <button
       onClick={handleClick}
-      className={`w-full flex items-center py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 font-semibold text-sm transition-all duration-200 group relative cursor-pointer border border-transparent hover:border-[#E8B86D]/10 ${
-        collapsed ? "px-2 justify-center" : "px-3 gap-3"
-      }`}
+      className={`w-full flex items-center py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 font-semibold text-sm transition-all duration-200 group relative cursor-pointer border border-transparent hover:border-[#E8B86D]/10 ${collapsed ? "px-2 justify-center" : "px-3 gap-3"
+        }`}
     >
       <span className="text-base leading-none select-none">{icon}</span>
       {!collapsed && <span className="text-[13px] font-medium leading-relaxed">{label}</span>}
@@ -337,13 +335,13 @@ export default function Layout() {
               <span className="text-base select-none">🔔</span>
             </button>
             <div className="relative">
-              <button 
+              <button
                 onClick={() => setSettingsOpen(!settingsOpen)}
                 className="w-9 h-9 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition cursor-pointer"
               >
                 <span className="text-base select-none">⚙️</span>
               </button>
-              
+
               {settingsOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setSettingsOpen(false)}></div>

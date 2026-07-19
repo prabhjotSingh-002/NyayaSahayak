@@ -15,6 +15,7 @@ import CaseVault from './pages/CaseVault'
 import ContractGuard from './pages/ContractGuard'
 import AIVakil from './pages/AIVakil'
 import DocDraft from './pages/DocDraft'
+import UpdatePassword from './pages/UpdatePassword'
 
 // Guard
 import { ProtectedRoute } from './components/ProtectedRoute'
@@ -27,7 +28,12 @@ function AuthCallback() {
   useEffect(() => {
     if (!loading) {
       if (user) {
-        navigate('/workspace', { replace: true })
+        if (sessionStorage.getItem('passwordRecovery') === 'true') {
+          sessionStorage.removeItem('passwordRecovery')
+          navigate('/update-password', { replace: true })
+        } else {
+          navigate('/workspace', { replace: true })
+        }
       } else {
         navigate('/login', { replace: true })
       }
@@ -56,6 +62,14 @@ const router = createBrowserRouter([
   {
     path: '/signin',
     element: <SignIn />
+  },
+  {
+    path: '/update-password',
+    element: (
+      <ProtectedRoute>
+        <UpdatePassword />
+      </ProtectedRoute>
+    )
   },
   {
     path: '/signup',
@@ -112,7 +126,10 @@ export default function App() {
 
     // Listen to session changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      (event, session) => {
+        if (event === 'PASSWORD_RECOVERY') {
+          sessionStorage.setItem('passwordRecovery', 'true')
+        }
         setSession(session)
         setUser(session?.user ?? null)
         setLoading(false)

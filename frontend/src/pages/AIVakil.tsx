@@ -460,7 +460,7 @@ export default function AIVakil() {
   }, []);
 
   useEffect(() => {
-    if (chatContainerRef.current) {
+    if (chatContainerRef.current && msgs.length > 1) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [msgs, loading]);
@@ -532,8 +532,16 @@ export default function AIVakil() {
   const isFirst = msgs.length <= 1;
 
   return (
-    <div className="flex h-full w-full bg-dot-grid text-[#E7E5E4] font-sans-ui overflow-hidden relative" style={{ animation: "fadeUp 0.35s ease forwards" }}>
+    <div className="flex w-full bg-dot-grid text-[#E7E5E4] font-sans-ui overflow-hidden relative ai-vakil-container" style={{ animation: "fadeUp 0.35s ease forwards" }}>
       <style>{`
+        .ai-vakil-container {
+          height: calc(100vh - 4rem);
+        }
+        @media (min-width: 1024px) {
+          .ai-vakil-container {
+            height: calc(100vh - 5rem);
+          }
+        }
         .bg-dot-grid {
           background-color: #0c0a09;
           background-image: radial-gradient(rgba(232, 184, 109, 0.15) 1px, transparent 1px);
@@ -584,60 +592,12 @@ export default function AIVakil() {
         <svg width="600" height="600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
       </div>
 
-      {/* 📑 LEFT SIDEBAR (Clean & De-engineered) */}
-      <aside className="w-64 glass-panel border-y-0 border-l-0 flex flex-col justify-between z-20 shadow-xl hidden md:flex text-left">
-        <div className="p-6">
-          <div className="flex items-center gap-3 mb-8 pb-6 border-b border-white/5">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#E8B86D] to-[#C68A2C] flex items-center justify-center text-[#0a0807] text-xl shadow-[0_0_15px_rgba(232,184,109,0.4)] shrink-0">⚖️</div>
-            <div>
-              <h2 className="font-bold text-white leading-tight font-sans-ui">AI Vakil</h2>
-              <span className="text-[10px] font-mono-code text-emerald-400 font-bold flex items-center gap-1.5 mt-0.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Online
-              </span>
-            </div>
-          </div>
 
-          {/* Clean Legal Reference List */}
-          <div>
-            <span className="text-[10px] font-mono-code uppercase tracking-widest text-slate-500 font-bold mb-4 block">Active Frameworks</span>
-            <div className="space-y-4">
-              <div className="relative pl-4 border-l border-[#E8B86D]/30">
-                <div className="absolute left-[-4px] top-1.5 w-2 h-2 rounded-full bg-[#E8B86D]"></div>
-                <h4 className="text-xs font-bold text-white font-sans-ui">BNS 2023</h4>
-                <p className="text-[10px] text-slate-400 font-mono-code mt-0.5">Replaces IPC 1860</p>
-              </div>
-              <div className="relative pl-4 border-l border-blue-500/30">
-                <div className="absolute left-[-4px] top-1.5 w-2 h-2 rounded-full bg-blue-400"></div>
-                <h4 className="text-xs font-bold text-white font-sans-ui">BNSS 2023</h4>
-                <p className="text-[10px] text-slate-400 font-mono-code mt-0.5">Replaces CrPC 1973</p>
-              </div>
-              <div className="relative pl-4 border-l border-purple-500/30">
-                <div className="absolute left-[-4px] top-1.5 w-2 h-2 rounded-full bg-purple-400"></div>
-                <h4 className="text-xs font-bold text-white font-sans-ui">BSA 2023</h4>
-                <p className="text-[10px] text-slate-400 font-mono-code mt-0.5">Replaces IEA 1872</p>
-              </div>
-              <div className="relative pl-4 border-l border-emerald-500/30">
-                <div className="absolute left-[-4px] top-1.5 w-2 h-2 rounded-full bg-emerald-400"></div>
-                <h4 className="text-xs font-bold text-white font-sans-ui">NI Act 1881</h4>
-                <p className="text-[10px] text-slate-400 font-mono-code mt-0.5">Sec 138 Unchanged</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </aside>
 
       {/* 💬 MAIN CHAT AREA */}
-      <main className="flex-1 flex flex-col h-full relative z-20 min-w-0">
-        
-        {/* Header */}
-        <header className="h-16 glass-panel border-b border-white/5 flex items-center justify-center px-6 sticky top-0 z-30 shrink-0">
-          <span className="text-xs font-mono-code font-bold text-slate-300 tracking-widest uppercase">
-            <span className="text-[#E8B86D]">"</span> धर्मो रक्षति रक्षितः <span className="text-[#E8B86D]">"</span>
-          </span>
-        </header>
-
+      <main className="flex-1 flex flex-col h-full min-h-0 overflow-hidden relative z-20 min-w-0">
         {/* CHAT HISTORY (Scrollable) */}
-        <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 md:p-8 chat-scroll pb-6">
+        <div ref={chatContainerRef} className="flex-1 min-h-0 overflow-y-auto p-4 md:p-8 chat-scroll pb-6">
           <div className="max-w-6xl mx-auto space-y-8">
             {connectionError && (
               <div className="bg-red-950/40 border border-red-500/30 p-5 rounded-2xl flex items-center justify-between gap-4 mb-6 relative z-30 animate-in fade-in duration-300">

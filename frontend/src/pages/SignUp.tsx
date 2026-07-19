@@ -80,8 +80,11 @@ export default function SignUp() {
           navigate("/workspace");
         }
       } else {
-        setSuccessMsg(`Registration successful! A verification email was sent to ${form.email}. Please check your inbox and click the link to confirm before logging in.`);
+        setSuccessMsg(`Registration successful! A verification email was sent to ${form.email}. Redirecting to Sign In...`);
         setForm({ name: "", email: "", password: "" });
+        setTimeout(() => {
+          navigate("/signin");
+        }, 3000);
       }
     } catch (err: any) {
       setError(err.message || "An authentication error occurred");

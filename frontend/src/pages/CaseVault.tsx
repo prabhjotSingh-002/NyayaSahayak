@@ -1815,24 +1815,19 @@ export default function CaseVault() {
             loadCases();
           }}
         />
-      ) : loading ? (
-        <div className="min-h-[450px] flex flex-col items-center justify-center text-[#E8B86D] relative overflow-hidden">
-          <div className="flex flex-col items-center gap-5 relative z-10">
-            <div className="relative">
-              {/* Core spinner ring */}
-              <div className="h-11 w-11 rounded-full border-[3.5px] border-t-transparent border-[#E8B86D] animate-spin" />
-              {/* Center glowing core */}
-              <div className="absolute inset-0 m-auto h-2.5 w-2.5 rounded-full bg-[#E8B86D] shadow-[0_0_12px_#E8B86D]" />
-            </div>
-            <div className="space-y-1 text-center">
-              <p className="font-mono-code text-[10px] tracking-[0.25em] font-black uppercase text-[#E8B86D]">Accessing CaseVault</p>
-              <p className="text-xs text-slate-400 font-medium max-w-[280px] leading-relaxed">Securing legal archives and loading counselor dossiers...</p>
-            </div>
-          </div>
-        </div>
-      ) : cases.length === 0 ? (
-        /* Appealing Empty State with Quick-Start Guide */
+      ) : (loading || cases.length === 0) ? (
+        /* Appealing Empty State with Quick-Start Guide (displayed by default while loading or when empty) */
         <div className="max-w-4xl mx-auto w-full space-y-8 mt-4 animate-in fade-in duration-300">
+          {loading && (
+            <div className="text-center py-4 text-xs text-[#E8B86D] animate-pulse font-mono-code font-bold flex items-center justify-center gap-2 bg-[#14100c]/60 rounded-2xl border border-[#E8B86D]/15 max-w-xl mx-auto mb-6">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E8B86D] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E8B86D]"></span>
+              </span>
+              Connecting to Render server (waking database, please wait up to 50 seconds)...
+            </div>
+          )}
+
           {/* HEADER */}
           <div className="text-center mb-8">
             <h1 className="font-serif-legal text-3xl font-bold text-white tracking-wide mb-2">CaseVault Repository</h1>
@@ -1880,7 +1875,7 @@ export default function CaseVault() {
           </div>
         </div>
       ) : (
-        // Active view
+        // Active view (displayed when cases load successfully and exist)
         <>
           {/* CaseVault Premium Intro Banner (Glass Reimagined) */}
           <div className="glass-card rounded-3xl p-6 md:p-8 mb-6 relative overflow-hidden group">
@@ -1920,7 +1915,9 @@ export default function CaseVault() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
               <div className="text-left">
                 <h1 className="font-serif-legal text-3xl font-bold text-white tracking-wide mb-1.5">CaseVault</h1>
-                <p className="text-xs text-slate-400 font-mono-code font-semibold"><strong className="text-[#E8B86D]">{cases.length}</strong> total cases • <strong className="text-blue-400">{counts.Active}</strong> active</p>
+                <p className="text-xs text-slate-400 font-mono-code font-semibold">
+                  <strong className="text-[#E8B86D]">{cases.length}</strong> total cases • <strong className="text-blue-400">{counts.Active}</strong> active
+                </p>
               </div>
               <button onClick={() => setShowNew(true)} className="bg-gradient-to-r from-[#E8B86D] via-[#D4A853] to-[#C68A2C] text-[#0a0807] font-bold px-5 py-2.5 rounded-xl text-xs shadow-[0_4px_15px_rgba(232,184,109,0.3)] hover:brightness-110 active:scale-95 transition flex items-center gap-2 cursor-pointer border-0 font-sans-ui">
                 <span>+</span> Register New Case

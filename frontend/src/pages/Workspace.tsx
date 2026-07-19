@@ -107,7 +107,9 @@ export default function Workspace() {
     contractsAudited: 0,
     docsGenerated: 0,
   });
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(true);
+  const [syncError, setSyncError] = useState(false);
   const [showTour, setShowTour] = useState(false);
   const [conversations, setConversations] = useState<any[]>([]);
   const [recentActivity, setRecentActivity] = useState<any[]>([]);
@@ -131,17 +133,26 @@ export default function Workspace() {
     if (authLoading) return;
     if (!user) {
       setLoading(false);
+      setIsSyncing(false);
       return;
     }
 
     const fetchDashboardStats = async () => {
-      setLoading(true);
+      setIsSyncing(true);
+      setSyncError(false);
       try {
+        let hasError = false;
         const [cases, docs, convs] = await Promise.all([
-          apiFetch("/cases").catch(() => []),
-          apiFetch("/documents").catch(() => []),
-          apiFetch("/chat/conversations").catch(() => []),
+          apiFetch("/cases").catch((err) => { console.error(err); hasError = true; return []; }),
+          apiFetch("/documents").catch((err) => { console.error(err); hasError = true; return []; }),
+          apiFetch("/chat/conversations").catch((err) => { console.error(err); hasError = true; return []; }),
         ]);
+
+        if (hasError) {
+          setSyncError(true);
+        } else {
+          setSyncError(false);
+        }
 
         const totalCasesCount = Array.isArray(cases) ? cases.length : 0;
         const activeCasesCount = Array.isArray(cases) 
@@ -290,35 +301,13 @@ export default function Workspace() {
 
       } catch (err) {
         console.error("Failed to load workspace dashboard stats", err);
+        setSyncError(true);
       } finally {
-        setLoading(false);
+        setIsSyncing(false);
       }
     };
     fetchDashboardStats();
   }, [user, authLoading]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#0c0a09] flex items-center justify-center text-[#E8B86D] relative overflow-hidden">
-        {/* Ambient background grid and glow */}
-        <div className="pointer-events-none absolute inset-0 bg-dot-grid opacity-30" style={{ backgroundImage: "radial-gradient(rgba(232,184,109,0.15) 1px, transparent 1px)", backgroundSize: "26px 26px" }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-[#E8B86D]/10 via-transparent to-transparent rounded-full blur-[100px] pointer-events-none" />
-        
-        <div className="flex flex-col items-center gap-5 relative z-10">
-          <div className="relative">
-            {/* Outer spinning ring */}
-            <div className="h-12 w-12 rounded-full border-[3.5px] border-t-transparent border-[#E8B86D] animate-spin" />
-            {/* Center glowing golden core */}
-            <div className="absolute inset-0 m-auto h-2.5 w-2.5 rounded-full bg-[#E8B86D] shadow-[0_0_12px_#E8B86D]" />
-          </div>
-          <div className="space-y-1.5 text-center">
-            <p className="font-mono-code text-[10px] tracking-[0.3em] font-black uppercase text-[#E8B86D]">NyayaSahayak</p>
-            <p className="text-xs text-slate-400 font-semibold tracking-wide">Loading your legal workspace...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-dot-grid text-[#E7E5E4] font-sans-ui p-4 md:p-8 relative overflow-hidden selection:bg-[#E8B86D] selection:text-[#0c0a09]">
@@ -367,8 +356,25 @@ export default function Workspace() {
           <span className="text-[11px] font-mono-code uppercase tracking-widest text-[#E8B86D] block mb-1">
             {new Date().toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" }).toUpperCase()}
           </span>
-          <h1 className="font-serif-legal text-2xl md:text-3xl font-bold text-[#FBFBFA] tracking-wide mb-6">
-            {greeting}, {userName.split(" ")[0]}. ☕
+          <h1 className="font-serif-legal text-2xl md:text-3xl font-bold text-[#FBFBFA] tracking-wide mb-6 flex flex-wrap items-center gap-3">
+            <span>{greeting}, {userName.split(" ")[0]}. ☕</span>
+            {isSyncing && (
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#E8B86D]/15 border border-[#E8B86D]/35 text-xs font-mono-code font-bold text-[#E8B86D] animate-pulse shadow-[0_0_12px_rgba(232,184,109,0.15)]">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E8B86D] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E8B86D]"></span>
+                </span>
+                Syncing Database (Waking Render)...
+              </span>
+            )}
+            {syncError && !isSyncing && (
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-red-950/40 border border-red-500/35 text-xs font-mono-code font-bold text-red-200 shadow-[0_0_12px_rgba(239,68,68,0.15)]">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+                </span>
+                Offline (Server Connection Failed)
+              </span>
+            )}
           </h1>
 
           {/* Search bar below greeting */}
@@ -416,7 +422,7 @@ export default function Workspace() {
             <div className="absolute -right-4 -top-4 w-16 h-16 bg-blue-500/10 rounded-full blur-xl"></div>
             <span className="text-[10px] font-mono-code uppercase text-slate-400 font-bold block mb-3 flex items-center gap-1.5"><span className="text-blue-400">📂</span> Active Cases</span>
             <div className="text-3xl font-bold text-white font-mono-code mb-1">
-              {loading ? "..." : <CountUp target={stats.activeCases} />}
+              <CountUp target={stats.activeCases} />
             </div>
             <span className="text-[11px] font-mono-code text-blue-400">
               {stats.activeCases === 0 ? "Setup CaseVault →" : `${stats.activeCases} case(s) open`}
@@ -427,7 +433,7 @@ export default function Workspace() {
             <div className="absolute -right-4 -top-4 w-16 h-16 bg-amber-500/10 rounded-full blur-xl"></div>
             <span className="text-[10px] font-mono-code uppercase text-slate-400 font-bold block mb-3 flex items-center gap-1.5"><span className="text-amber-400">💼</span> Total Cases</span>
             <div className="text-3xl font-bold text-white font-mono-code mb-1">
-              {loading ? "..." : <CountUp target={stats.totalCases} />}
+              <CountUp target={stats.totalCases} />
             </div>
             <span className="text-[11px] font-mono-code text-amber-500">
               {stats.totalCases === 0 ? "No cases registered" : `${stats.totalCases} total case(s)`}
@@ -438,7 +444,7 @@ export default function Workspace() {
             <div className="absolute -right-4 -top-4 w-16 h-16 bg-red-500/10 rounded-full blur-xl"></div>
             <span className="text-[10px] font-mono-code uppercase text-slate-400 font-bold block mb-3 flex items-center gap-1.5"><span className="text-[#F87171]">🛡️</span> Contracts Audited</span>
             <div className="text-3xl font-bold text-white font-mono-code mb-1">
-              {loading ? "..." : <CountUp target={stats.contractsAudited} />}
+              <CountUp target={stats.contractsAudited} />
             </div>
             <span className="text-[11px] font-mono-code text-[#F87171]">
               {stats.contractsAudited === 0 ? "Run first audit →" : "Risk reports complete"}
@@ -449,7 +455,7 @@ export default function Workspace() {
             <div className="absolute -right-4 -top-4 w-16 h-16 bg-purple-500/10 rounded-full blur-xl"></div>
             <span className="text-[10px] font-mono-code uppercase text-slate-400 font-bold block mb-3 flex items-center gap-1.5"><span className="text-purple-400">📄</span> Docs Generated</span>
             <div className="text-3xl font-bold text-white font-mono-code mb-1">
-              {loading ? "..." : <CountUp target={stats.docsGenerated} />}
+              <CountUp target={stats.docsGenerated} />
             </div>
             <span className="text-[11px] font-mono-code text-purple-400">
               {stats.docsGenerated === 0 ? "Browse Templates →" : "Custom drafts saved"}
