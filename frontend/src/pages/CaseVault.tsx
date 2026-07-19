@@ -285,15 +285,11 @@ function CopilotDrawer({ caseData, onClose }: { caseData: Case; onClose: () => v
   });
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [width, setWidth] = useState(480);
+  const [width, setWidth] = useState(600);
   const [isResizing, setIsResizing] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  }, [msgs]);
+  // Auto-scroll removed as per user preference to stay at current reading position
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -356,11 +352,13 @@ function CopilotDrawer({ caseData, onClose }: { caseData: Case; onClose: () => v
         style={{ width }}>
         {/* Resize drag handle */}
         <div
-          className="absolute left-0 top-0 bottom-0 w-2 cursor-ew-resize hover:bg-[#E8B86D]/20 transition-all duration-200 z-50 flex items-center justify-center group"
+          className="absolute -left-2 top-0 bottom-0 w-4 cursor-ew-resize hover:bg-[#E8B86D]/10 transition-all duration-200 z-50 flex items-center justify-center group"
           onMouseDown={e => { e.preventDefault(); setIsResizing(true); }}
         >
           {/* Visual drag indicator bar */}
-          <div className="w-[1.5px] h-12 bg-white/10 group-hover:bg-[#E8B86D]/60 rounded transition-colors" />
+          <div className="w-[4px] h-16 bg-[#E8B86D]/40 group-hover:bg-[#E8B86D] rounded-full shadow-[0_0_8px_rgba(232,184,109,0.3)] group-hover:shadow-[0_0_12px_rgba(232,184,109,0.8)] transition-all flex items-center justify-center">
+             <div className="w-[1px] h-8 bg-[#14100c]/60 rounded-full" />
+          </div>
         </div>
         
         {/* 1. DRAWER HEADER */}

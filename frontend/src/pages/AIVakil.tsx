@@ -459,11 +459,7 @@ export default function AIVakil() {
     ]);
   }, []);
 
-  useEffect(() => {
-    if (chatContainerRef.current && msgs.length > 1) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  }, [msgs, loading]);
+  // Auto-scroll removed as per user preference to stay at current reading position
 
   const handleInput = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const ta = e.target;
