@@ -1,0 +1,976 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-serif);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* ============================================
+   NYAYA NOIR — Cinematic Legal Tech Palette
+   Black + Sovereign Gold
+   ============================================ */
+
+:root {
+  --background: #FFFFFF;
+  --foreground: #141311;
+  --card: #FFFFFF;
+  --card-foreground: #141311;
+  --popover: #FFFFFF;
+  --popover-foreground: #141311;
+  --primary: #E8B86D;
+  --primary-foreground: #141311;
+  --secondary: #F4F4F5;
+  --secondary-foreground: #18181B;
+  --muted: #F4F4F5;
+  --muted-foreground: #71717A;
+  --accent: #D4A853;
+  --accent-foreground: #141311;
+  --destructive: #F87171;
+  --border: #E4E4E7;
+  --input: #E4E4E7;
+  --ring: #E8B86D;
+  --radius: 0.625rem;
+  
+  --font-sans: "Plus Jakarta Sans", "Inter", sans-serif;
+  --font-serif: "Merriweather", "Playfair Display", serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+/* NYAYA NOIR DARK THEME — Core Palette */
+.dark {
+  /* Backgrounds — Premium Warm Charcoal */
+  --background: #141311;                  /* Warm Off-Black / Charcoal */
+  --foreground: #F9F8F6;                  /* Warm Off-White headings */
+  --card: #211F1D;                        /* Espresso brown-grey Card Surface Level 1 */
+  --card-foreground: #D4D1CA;             /* Soft Cream-Grey body text */
+  --popover: #2C2927;                     /* Espresso Card Surface Level 2 */
+  --popover-foreground: #F9F8F6;
+
+  /* Sovereign Gold — Primary Accent */
+  --primary: #E8B86D;                     /* Primary Brand Gold */
+  --primary-foreground: #141311;          /* Dark charcoal text on gold */
+  --accent: #D4A853;                      /* Hover gold */
+  --accent-foreground: #141311;
+
+  /* Secondary / Muted */
+  --secondary: #2C2927;                   /* Espresso Card Surface Level 2 */
+  --secondary-foreground: #D4D1CA;
+  --muted: #211F1D;
+  --muted-foreground: #94A3B8;            /* Slate 400 - Tertiary/Muted */
+
+  /* Status Colors (Harmonic Status Colors) */
+  --destructive: #F87171;
+
+  /* Borders & Inputs */
+  --border: rgba(255, 255, 255, 0.1);    /* Thin subtle border */
+  --input: rgba(255, 255, 255, 0.05);
+  --ring: #E8B86D;
+
+  /* Fonts (dark overrides) */
+  --font-sans: "Plus Jakarta Sans", "Inter", sans-serif;
+  --font-serif: "Merriweather", "Playfair Display", serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Sidebar */
+  --sidebar: #211F1D;
+  --sidebar-foreground: #D4D1CA;
+  --sidebar-primary: #E8B86D;
+  --sidebar-primary-foreground: #141311;
+  --sidebar-accent: #2C2927;
+  --sidebar-accent-foreground: #F9F8F6;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #E8B86D;
+
+  /* Redesign Layout Fix Variables */
+  --bg-deep: #141311;
+  --bg-surface: #211F1D;
+  --bg-elevated: #2C2927;
+  --bg-hover: #2C2927;
+  
+  --text-primary: #F9F8F6;
+  --text-secondary: #D4D1CA;
+  --text-muted: #94A3B8;
+  
+  --accent-gold: #E8B86D;
+  --accent-gold-dim: rgba(232, 184, 109, 0.1);
+  
+  --risk-high: #F87171;
+  --risk-high-dim: #3B1816;
+  --risk-medium: #FBA919;
+  --risk-medium-dim: #382613;
+  --risk-low: #4ADE80;
+  --risk-low-dim: #163323;
+  
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --border-active: rgba(232, 184, 109, 0.25);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* ============================================
+   NYAYA NOIR — Custom Utility Classes
+   ============================================ */
+
+/* Gold glow on focus */
+.gold-glow {
+  box-shadow: 0 0 30px rgba(232, 184, 109, 0.15);
+}
+.gold-glow-strong {
+  box-shadow: 0 0 60px rgba(232, 184, 109, 0.25);
+}
+
+/* Gradient text — Sovereign Gold */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #E8B86D 0%, #F5CFA0 50%, #D4A853 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Cinematic ambient background mesh */
+.nyaya-bg-mesh {
+  background-color: #141311;
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(232,184,109,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 0%, rgba(168,85,247,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(232,184,109,0.04) 0%, transparent 60%);
+}
+
+/* Glass card effect */
+.glass-card {
+  background: rgba(33, 31, 29, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.glass-card-hover:hover {
+  border-color: rgba(232, 184, 109, 0.25);
+  box-shadow: 0 0 40px rgba(232, 184, 109, 0.08);
+}
+
+/* Animated typing cursor */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.typing-cursor::after {
+  content: '|';
+  animation: blink 1s infinite;
+  color: #E8B86D;
+}
+
+/* Gold shimmer animation */
+@keyframes gold-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.gold-shimmer {
+  background: linear-gradient(90deg, #E8B86D 25%, #F5CFA0 50%, #E8B86D 75%);
+  background-size: 200% auto;
+  animation: gold-shimmer 3s linear infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Pulsing gold ring */
+@keyframes gold-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232, 184, 109, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(232, 184, 109, 0); }
+}
+.gold-pulse {
+  animation: gold-pulse 2s infinite;
+}
+
+/* Scale animation on hover */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* ============================================
+   UI REDESIGN — Command Grid & Sidebar
+   ============================================ */
+
+.sidebar {
+  width: 280px;
+  background: #211F1D;
+  border-right: 1px solid rgba(255,255,255,0.10);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+/* Logo Area */
+.sidebar-brand {
+  padding: 0 12px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+  margin-bottom: 24px;
+}
+
+/* Section Headers */
+.sidebar-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #52525b;
+  padding: 0 12px;
+  margin-bottom: 8px;
+  margin-top: 24px;
+}
+
+/* Nav Items */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: #71717a;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  margin-bottom: 2px;
+  text-decoration: none;
+}
+
+.nav-item:hover {
+  color: #F9F8F6;
+  background: rgba(255,255,255,0.04);
+  transform: translateX(4px);
+}
+
+.nav-item.active {
+  color: #ffffff;
+  background: rgba(232, 184, 109, 0.08);
+  border-left: 3px solid #E8B86D;
+  margin-left: -16px;
+  padding-left: 28px;
+  border-radius: 0 10px 10px 0;
+}
+
+.nav-item.active .nav-icon {
+  color: #E8B86D;
+}
+
+/* Status Pills at Bottom */
+.sidebar-status {
+  margin-top: auto;
+  padding: 16px 12px;
+  border-top: 1px solid rgba(255,255,255,0.10);
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(74, 222, 128, 0.10);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4ADE80;
+}
+
+.status-pill .dot {
+  width: 6px;
+  height: 6px;
+  background: #4ADE80;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* User Profile Card */
+.user-card {
+  margin-top: 12px;
+  padding: 14px;
+  background: #2C2927;
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #E8B86D, #D4A853);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #141311;
+  font-size: 14px;
+}
+
+/* ROOT APP SHELL */
+.app-shell {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: #141311;
+}
+
+/* Top Bar */
+.top-bar {
+  height: 64px;
+  background: #211F1D;
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  z-index: 10;
+  width: 100%;
+}
+
+.top-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.top-bar-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #F9F8F6;
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ai-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(74, 222, 128, 0.10);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4ADE80;
+}
+
+.ai-status .dot {
+  width: 6px;
+  height: 6px;
+  background: #4ADE80;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+/* Center content cards */
+.clauses-container {
+  width: 100%;
+  max-width: none;
+}
+
+/* Redesigned Typography Scale */
+.page-title {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.page-subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #94a3b8;
+  max-width: 640px;
+  margin-bottom: 32px;
+}
+
+/* Redesigned Collapsible Clause Card */
+.clause-card {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 20px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Card hover lift & glow */
+.clause-card:hover {
+  border-color: var(--border-active);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Expand indicator caret */
+.clause-card::after {
+  content: "⌄";
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  color: var(--text-muted);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+.clause-card.expanded::after {
+  transform: rotate(180deg);
+}
+
+/* Semantic left borders by risk */
+.clause-card[data-risk="high"] {
+  border-left: 4px solid var(--risk-high);
+}
+
+.clause-card[data-risk="medium"] {
+  border-left: 4px solid var(--risk-medium);
+}
+
+.clause-card[data-risk="low"] {
+  border-left: 4px solid var(--risk-low);
+}
+
+/* Header inside card */
+.clause-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-right: 20px; /* Space for caret */
+}
+
+.clause-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.clause-source {
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.clause-text {
+  width: 100%;
+  font-size: 16px; /* Minimum body size */
+  line-height: 1.7; /* Spacious line height */
+  color: #cbd5e1;
+  margin-top: 16px;
+  margin-bottom: 20px;
+  word-wrap: break-word;
+}
+
+/* Expandable content area */
+.clause-details {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+.clause-card.expanded .clause-details {
+  max-height: 1000px;
+  opacity: 1;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 20px;
+  padding-top: 20px;
+}
+
+/* Inner section headings */
+.section-header {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent-gold);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* TALKING POINTS SECTION inside card */
+.talking-points {
+  margin-top: 20px;
+  padding: 20px;
+  background: var(--bg-elevated);
+  border-radius: 12px;
+  border-left: 3px solid var(--accent-gold);
+}
+
+.talking-points-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-gold);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.talking-point-item {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin-bottom: 10px;
+  padding-left: 16px;
+  position: relative;
+}
+
+.talking-point-item:last-child {
+  margin-bottom: 0;
+}
+
+.talking-point-item::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--accent-gold);
+  font-weight: 700;
+}
+
+/* STANDARD PRACTICE SECTION inside card */
+.standard-practice {
+  margin-top: 16px;
+  padding: 20px;
+  background: rgba(74, 222, 128, 0.05);
+  border: 1px solid rgba(74, 222, 128, 0.20);
+  border-radius: 12px;
+}
+
+.standard-practice-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #4ADE80;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.standard-practice-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #e2e8f0;
+  font-style: italic;
+}
+
+.use-standard-btn {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid #4ADE80;
+  color: #4ADE80;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.use-standard-btn:hover {
+  background: #4ADE80;
+  color: #141311;
+}
+
+/* View in PDF button appearing on hover */
+.view-pdf-btn {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.clause-card:hover .view-pdf-btn {
+  opacity: 1;
+}
+
+/* Utility Copy Button */
+.copy-btn {
+  padding: 6px 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.copy-btn:hover {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.copy-btn.copied {
+  background: var(--risk-low-dim);
+  color: var(--risk-low);
+  border-color: var(--risk-low);
+}
+
+/* RIGHT STICKY PANEL */
+.right-panel {
+  position: sticky;
+  top: 24px;
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.panel-section {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.panel-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.panel-number {
+  font-size: 48px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.panel-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--risk-high);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Redesigned Circular Risk Gauge */
+.risk-gauge {
+  text-align: center;
+  padding: 16px 0 8px;
+}
+
+.gauge-circle {
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 16px;
+  position: relative;
+}
+
+.gauge-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.gauge-label {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+
+.gauge-label.high { color: var(--risk-high); }
+.gauge-label.medium { color: var(--risk-medium); }
+.gauge-label.low { color: var(--risk-low); }
+
+/* Redesigned Risk Breakdown Bars */
+.risk-breakdown {
+  margin-top: 20px;
+}
+
+.risk-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.risk-bar:last-child {
+  margin-bottom: 0;
+}
+
+.risk-bar-label {
+  width: 80px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.risk-bar-track {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-elevated);
+  border-radius: 3px;
+  margin: 0 12px;
+  overflow: hidden;
+}
+
+.risk-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+.risk-bar-fill.high { background: var(--risk-high); }
+.risk-bar-fill.medium { background: var(--risk-medium); }
+.risk-bar-fill.low { background: var(--risk-low); }
+
+.risk-bar-count {
+  width: 24px;
+  text-align: right;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+/* Executive Summary text spacing */
+.exec-summary {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+/* Smart Action Plan list */
+.action-plan {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.action-item, .action-plan li {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+  padding-left: 24px;
+  position: relative;
+}
+
+.action-item:last-child, .action-plan li:last-child {
+  margin-bottom: 0;
+}
+
+.action-item::before, .action-plan li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--accent-gold);
+  font-weight: 700;
+}
+
+/* Redesigned Primary Action buttons */
+.generate-email-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--accent-gold);
+  color: #141311;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s;
+  active-scale: 0.98;
+}
+
+.generate-email-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(232, 184, 109, 0.25);
+}
+
+/* ============================================
+   NYAYA NOIR — Small Text Legibility Utility
+   WCAG AA compliant — force weight on dark bg
+   ============================================ */
+
+/* Enforces font-medium + leading-relaxed for crisp 12-13px text on dark backgrounds */
+.text-legal-xs {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.6;
+  font-family: var(--font-sans);
+}
+
+.text-legal-sm {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.6;
+  font-family: var(--font-sans);
+}
+
+/* Gold primary CTA — Button States */
+.btn-gold-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #E8B86D, #D4A853);
+  color: #141311;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+}
+
+.btn-gold-primary:hover {
+  filter: brightness(1.10);
+  box-shadow: 0 4px 14px rgba(232, 184, 109, 0.25);
+}
+
+.btn-gold-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-gold-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: none;
+  box-shadow: none;
+}
+
+/* Secondary ghost button */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: transparent;
+  color: #D4D1CA;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.20);
+}
+
+.btn-ghost:active {
+  transform: scale(0.98);
+}
+
+/* Input focus ring */
+.input-legal {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 10px;
+  color: #F9F8F6;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-legal:focus {
+  border-color: #E8B86D;
+  box-shadow: 0 0 0 2px rgba(232, 184, 109, 0.15);
+}
+
+.input-legal::placeholder {
+  color: #94A3B8;
+}

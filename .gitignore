@@ -1,0 +1,26 @@
+backend/venv/
+backend/env/
+frontend/node_modules/
+frontend/dist/
+
+Design Landscape (2).zip
+design_landscape_extracted/
+github_push_temp/
+apiTest/
+*.log
+*.tmp
+*.bat
+
+caseVaultDesing.md
+docDraftDesign.md
+landsccapeDesign.md
+sideBarDesign.md
+workSpaceDesign.md
+
+legalSupabaseAuth.json
+
+old_md/
+
+backend/scratch/
+
+gemmaCheck/
