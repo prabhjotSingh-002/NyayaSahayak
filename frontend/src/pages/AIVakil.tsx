@@ -446,7 +446,7 @@ export default function AIVakil() {
   const [connectionError, setConnectionError] = useState(false);
   const [bareActSection, setBareActSection] = useState<string | null>(null);
 
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -459,7 +459,11 @@ export default function AIVakil() {
     ]);
   }, []);
 
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [msgs, loading]);
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [msgs, loading]);
 
   const handleInput = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const ta = e.target;
@@ -633,7 +637,7 @@ export default function AIVakil() {
         </header>
 
         {/* CHAT HISTORY (Scrollable) */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-8 chat-scroll pb-6">
+        <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 md:p-8 chat-scroll pb-6">
           <div className="max-w-6xl mx-auto space-y-8">
             {connectionError && (
               <div className="bg-red-950/40 border border-red-500/30 p-5 rounded-2xl flex items-center justify-between gap-4 mb-6 relative z-30 animate-in fade-in duration-300">
@@ -694,7 +698,6 @@ export default function AIVakil() {
             )}
 
             {loading && <div className="pl-12"><ThinkingIndicator /></div>}
-            <div ref={bottomRef} />
           </div>
         </div>
 

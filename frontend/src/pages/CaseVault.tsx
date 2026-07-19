@@ -287,9 +287,13 @@ function CopilotDrawer({ caseData, onClose }: { caseData: Case; onClose: () => v
   const [loading, setLoading] = useState(false);
   const [width, setWidth] = useState(480);
   const [isResizing, setIsResizing] = useState(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [msgs]);
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [msgs]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -387,7 +391,7 @@ function CopilotDrawer({ caseData, onClose }: { caseData: Case; onClose: () => v
         </header>
 
         {/* 2. CHAT HISTORY AREA (Highly Formatted AI Responses) */}
-        <div className="flex-1 overflow-y-auto p-5 space-y-6 chat-scroll">
+        <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-5 space-y-6 chat-scroll">
           {msgs.map((m, i) => {
             const isAI = m.role === "ai";
             if (isAI) {
@@ -432,7 +436,6 @@ function CopilotDrawer({ caseData, onClose }: { caseData: Case; onClose: () => v
               ))}
             </div>
           )}
-          <div ref={bottomRef} />
         </div>
 
         {/* 3. INPUT AREA */}
